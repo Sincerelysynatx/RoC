@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sincerelysmarty.RoC;
+package com.sincerelysmarty.RoC.Client;
 
-import com.sincerelysmarty.RoC.States.MainMenu;
+import com.sincerelysmarty.RoC.Client.States.MainMenu;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sincerelysmarty.RoC.States;
+package com.sincerelysmarty.RoC.Client.States;
 
 
 import org.newdawn.slick.GameContainer;
