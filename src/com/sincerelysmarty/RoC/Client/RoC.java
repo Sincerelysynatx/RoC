@@ -4,6 +4,9 @@
  */
 package com.sincerelysmarty.RoC.Client;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
+import com.sincerelysmarty.RoC.Client.Packet.*;
 import com.sincerelysmarty.RoC.Client.States.MainMenu;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -25,23 +28,25 @@ public class RoC extends StateBasedGame {
     public static final int skills = 5;
 //    public static final int play = 1;
 //    public static final int play = 1;
-    
-    
-    public RoC(String gameName){
+    private Client client;
+    private Kryo kryo;
+
+    public RoC(String gameName) {
         super(gameName);
         this.addState(new MainMenu(menu));
-        //this.addState(new Settings(settings));
-        //this.addState(new Play(play));
-        //this.addState(new Hero(hero));
+//        this.addState(new Settings(settings));
+//        this.addState(new Play(play));
+//        this.addState(new Hero(hero));
 //        this.addState(new Play(play));
 //        this.addState(new Play(play));
 //        this.addState(new Play(play));
 //        this.addState(new Play(play));
 //        this.addState(new Play(play));
 //        this.addState(new Play(play));
+        
     }
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         AppGameContainer appgc;
         try {
             appgc = new AppGameContainer(new RoC(gameName));
@@ -51,7 +56,14 @@ public class RoC extends StateBasedGame {
         } catch (SlickException e) {
         }
     }
-    
+
+    private void register() {
+        kryo = client.getKryo();
+        kryo.register(Packet0LoginRequest.class);
+        kryo.register(Packet1LoginAnswer.class);
+        kryo.register(Packet2Message.class);
+    }
+
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
         this.getState(menu).init(gc, this);
