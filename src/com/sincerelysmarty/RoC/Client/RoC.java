@@ -4,69 +4,94 @@
  */
 package com.sincerelysmarty.RoC.Client;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
-import com.sincerelysmarty.RoC.Client.Packet.*;
-import com.sincerelysmarty.RoC.Client.States.MainMenu;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import javax.swing.JFrame;
 
 /**
  *
- * @author Sean & David
+ * @author Sincerelypwnd
  */
-public class RoC extends StateBasedGame {
+public class RoC extends Canvas implements Runnable {
 
-    private static final String gameName = "Realm of Corruption";
-    public static final int menu = 0;//Main menu when launching game
-    public static final int settings = 1;//Options for graphics
-    public static final int play = 2;//Actual play state
-    public static final int hero = 3;//Menu for viewing player stats
-    public static final int abilities = 4;//Menu for selecting abilities
-    public static final int skills = 5;
-//    public static final int play = 1;
-//    public static final int play = 1;
-    private Client client;
-    private Kryo kryo;
-
-    public RoC(String gameName) {
-        super(gameName);
-        this.addState(new MainMenu(menu));
-//        this.addState(new Settings(settings));
-//        this.addState(new Play(play));
-//        this.addState(new Hero(hero));
-//        this.addState(new Play(play));
-//        this.addState(new Play(play));
-//        this.addState(new Play(play));
-//        this.addState(new Play(play));
-//        this.addState(new Play(play));
-//        this.addState(new Play(play));
-        
-    }
+    public static final int GAME_WIDTH = 310, GAME_HEIGHT = 240, SCALE = 2;
+    public static final String GAME_NAME = "Realm of Corruption";
+    public static boolean running = false;
+    public Screen screen;
+    private static RoC game;
+    private long lastLoopTime;
+    private int delta;
 
     public static void main(String[] args) {
-        AppGameContainer appgc;
-        try {
-            appgc = new AppGameContainer(new RoC(gameName));
-            appgc.setDisplayMode(appgc.getScreenWidth(), appgc.getScreenHeight(), false);
-            appgc.setFullscreen(true);
-            appgc.start();
-        } catch (SlickException e) {
-        }
+        game = new RoC();
+        game.init();
     }
 
-    private void register() {
-        kryo = client.getKryo();
-        kryo.register(Packet0LoginRequest.class);
-        kryo.register(Packet1LoginAnswer.class);
-        kryo.register(Packet2Message.class);
+    private void init() {
+        screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
+        running = true;
+        ImageLoader.init();
+
+        lastLoopTime = System.currentTimeMillis();
+
+        game.setPreferredSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
+        game.setMinimumSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
+        game.setMaximumSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
+
+        JFrame frame = new JFrame(GAME_NAME);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.add(game, BorderLayout.CENTER);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        new Thread(this).start();
     }
 
     @Override
-    public void initStatesList(GameContainer gc) throws SlickException {
-        this.getState(menu).init(gc, this);
-        this.enterState(menu);
+    public void run() {
+        while (running) {
+            update();
+            render();
+        }
+        System.exit(0);
+    }
+
+    private void update() {
+        delta = (int) (System.currentTimeMillis() - lastLoopTime);
+        lastLoopTime = System.currentTimeMillis();
+        System.out.println(delta);
+    }
+
+    private void render() {
+        BufferStrategy bs = this.getBufferStrategy();
+
+        if (bs == null) {
+            createBufferStrategy(3);
+            requestFocus();
+            return;
+        }
+
+        //BEGIN RENDERING
+        screen.fill(0xffff00ff);
+        screen.draw(ImageLoader.tilesCut[0][0], 0, 0);
+        //END RENDERING
+
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        int tempWidth = GAME_WIDTH * SCALE;
+        int tempHeight = GAME_HEIGHT * SCALE;
+        int w1 = (getWidth() - tempWidth) / 2;
+        int h1 = (getHeight() - tempHeight) / 2;
+        g.drawImage(screen.image, w1, h1, tempWidth, tempHeight, null);
+        g.dispose();
+        bs.show();
     }
 }
