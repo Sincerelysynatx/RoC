@@ -4,6 +4,8 @@
  */
 package com.sincerelysmarty.RoC.Client;
 
+import com.sincerelysmarty.RoC.Client.States.MenuComponent;
+import com.sincerelysmarty.RoC.Client.States.TitleMenu;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -21,10 +23,12 @@ public class RoC extends Canvas implements Runnable {
     public static final int GAME_WIDTH = 310, GAME_HEIGHT = 240, SCALE = 2;
     public static final String GAME_NAME = "Realm of Corruption";
     public static boolean running = false;
-    public Screen screen;
+    private Screen screen;
     private static RoC game;
-    private long lastLoopTime;
-    private int delta;
+    private int fps = 0, UPDATES = 0;
+    private Graphics g;
+    private BufferStrategy bs;
+    private MenuComponent currentMenu;
 
     public static void main(String[] args) {
         game = new RoC();
@@ -35,8 +39,6 @@ public class RoC extends Canvas implements Runnable {
         screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         running = true;
         ImageLoader.init();
-
-        lastLoopTime = System.currentTimeMillis();
 
         game.setPreferredSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
         game.setMinimumSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
@@ -51,26 +53,68 @@ public class RoC extends Canvas implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        setMenu(new TitleMenu());
+
         new Thread(this).start();
     }
 
     @Override
     public void run() {
+        long lastTime = System.nanoTime();
+        long lastTime1 = System.currentTimeMillis();
+        int frames = 0, updates = 0;
+        double unprocessed = 0;
+        double nsPerTick = 1000000000.0 / 60;
+
         while (running) {
-            update();
-            render();
+            long now = System.nanoTime();
+            unprocessed += (now - lastTime) / nsPerTick;
+
+            //lastTime = now;
+
+            boolean renderable = false;
+            while (unprocessed >= 1) {
+                updates++;
+                update();
+                unprocessed -= 1;
+                renderable = true;
+            }
+            /*
+             try {
+             Thread.sleep(2);
+             } catch (InterruptedException ex) {
+             Logger.getLogger(RoC.class.getName()).log(Level.SEVERE, null, ex);
+             }*/
+            if (renderable) {
+                frames++;
+                render();
+            }
+            if (System.currentTimeMillis() - lastTime1 > 1000) {
+                lastTime1 += 1000;
+                fps = frames;
+                UPDATES = updates;
+                frames = 0;
+                updates = 0;
+            }
         }
         System.exit(0);
     }
 
+    public void setMenu(MenuComponent menuComponent) {
+        this.currentMenu = menuComponent;
+        if (currentMenu != null) {
+            currentMenu.init();
+        }
+    }
+
     private void update() {
-        delta = (int) (System.currentTimeMillis() - lastLoopTime);
-        lastLoopTime = System.currentTimeMillis();
-        System.out.println(delta);
+        if (currentMenu != null) {
+            currentMenu.update();
+        }
     }
 
     private void render() {
-        BufferStrategy bs = this.getBufferStrategy();
+        bs = this.getBufferStrategy();
 
         if (bs == null) {
             createBufferStrategy(3);
@@ -79,14 +123,14 @@ public class RoC extends Canvas implements Runnable {
         }
 
         //BEGIN RENDERING
-        screen.fill(0xffff00ff);
-        screen.draw(ImageLoader.tilesCut[0][0], 0, 0);
-        
-        Font.draw("Hello World!", screen, 100, 100);
+        screen.fill(0xFFFFFFFF);
+        if (currentMenu != null) {
+            currentMenu.render(screen);
+        }
+        Font.draw("FPS: " + fps + ", Updates: " + UPDATES, screen, 5, 5);
         //END RENDERING
 
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.BLACK);
+        g = bs.getDrawGraphics();
         g.fillRect(0, 0, getWidth(), getHeight());
         int tempWidth = GAME_WIDTH * SCALE;
         int tempHeight = GAME_HEIGHT * SCALE;
