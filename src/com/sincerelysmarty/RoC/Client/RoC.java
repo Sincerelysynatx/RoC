@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +22,12 @@ import javax.swing.JFrame;
  *
  * @author Sincerelypwnd
  */
-public class RoC extends Canvas implements Runnable {
+public class RoC extends Canvas implements Runnable, KeyListener {
 
     public static final int GAME_WIDTH = 320, GAME_HEIGHT = 280, SCALE = 2;
     public static final String GAME_NAME = "Realm of Corruption";
+    public Screen screen;
     private static boolean running = false;
-    private Screen screen;
     private static RoC game;
     private int fps = 0, UPDATES = 0;
     private Graphics g;
@@ -38,6 +40,7 @@ public class RoC extends Canvas implements Runnable {
         this.setMinimumSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
         this.setMaximumSize(new Dimension(GAME_WIDTH * SCALE, GAME_HEIGHT * SCALE));
         this.addMouseListener(mouseInput);
+        this.addKeyListener(this);
     }
 
     public static void main(String[] args) {
@@ -153,5 +156,26 @@ public class RoC extends Canvas implements Runnable {
 
     public static void setRunning(boolean isRun) {
         running = isRun;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        if (currentMenu != null) {
+            currentMenu.keyTyped(ke);
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        if (currentMenu != null) {
+            currentMenu.keyPressed(ke);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        if (currentMenu != null) {
+            currentMenu.keyReleased(ke);
+        }
     }
 }

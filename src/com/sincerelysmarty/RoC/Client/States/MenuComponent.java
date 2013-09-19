@@ -9,6 +9,8 @@ import com.sincerelysmarty.RoC.Client.Gui.ButtonListener;
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.RoC;
 import com.sincerelysmarty.RoC.Client.Screen;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -16,9 +18,10 @@ import java.util.ArrayList;
  *
  * @author 5002394184
  */
-public class MenuComponent implements ButtonListener {
+public class MenuComponent implements ButtonListener, KeyListener {
 
     private List<Button> buttons = new ArrayList<>();
+    
     private RoC game;
 
     public void render(Screen screen) {
@@ -46,7 +49,19 @@ public class MenuComponent implements ButtonListener {
         buttons.add(button);
         button.setListener(this);
     }
+    
+    @Override
+    public void keyTyped(KeyEvent ke) {
+    }
 
+    @Override
+    public void keyPressed(KeyEvent ke) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+    }
+    
     @Override
     public void buttonPressed(Button button) {
         if (button.getID() == MenuComponent.BUTTON_CONNECT_SCREEN) {
@@ -67,4 +82,6 @@ public class MenuComponent implements ButtonListener {
     public static final int BUTTON_ABOUT_SCREEN = 2;
     public static final int BUTTON_QUIT_ = 3;
     public static final int BUTTON_BACK_ = 4;
+
+    
 }

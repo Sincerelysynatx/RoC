@@ -9,6 +9,7 @@ import com.sincerelysmarty.RoC.Client.Gui.Button;
 import com.sincerelysmarty.RoC.Client.RoC;
 import com.sincerelysmarty.RoC.Client.Screen;
 import static com.sincerelysmarty.RoC.Client.States.MenuComponent.BUTTON_BACK_;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -27,5 +28,10 @@ class ConnectMenu extends MenuComponent {
     public void init(RoC game) {
         super.init(game);
         addButton(new Button(BUTTON_BACK_, "Back", 1, 1, RoC.GAME_WIDTH / 2 - 64, 250));
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        //To change body of generated methods, choose Tools | Templates.
     }
 }
