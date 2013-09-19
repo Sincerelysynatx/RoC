@@ -17,10 +17,12 @@ public class ImageLoader {
 
     public static Bitmap tilesPlain;
     public static Bitmap[][] tilesCut;
+    public static Bitmap[][] font;
 
     public static void init() {
-        tilesPlain = load("res/link_stand.png");
-        tilesCut = cut("res/link_stand.png", 42, 42);
+        tilesPlain = load("res/link.png");
+        tilesCut = cut("res/link.png", 42, 42);
+        font = cut("res/font.png", 14, 30);
     }
 
     private static Bitmap[][] cut(String string, int w, int h) {

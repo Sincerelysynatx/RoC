@@ -81,6 +81,8 @@ public class RoC extends Canvas implements Runnable {
         //BEGIN RENDERING
         screen.fill(0xffff00ff);
         screen.draw(ImageLoader.tilesCut[0][0], 0, 0);
+        
+        Font.draw("Hello World!", screen, 100, 100);
         //END RENDERING
 
         Graphics g = bs.getDrawGraphics();
