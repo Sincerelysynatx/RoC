@@ -111,7 +111,7 @@ public class RoC extends Canvas implements Runnable {
     public void setMenu(MenuComponent menuComponent) {
         this.currentMenu = menuComponent;
         if (currentMenu != null) {
-            currentMenu.init();
+            currentMenu.init(this);
         }
     }
 
