@@ -4,10 +4,10 @@
  */
 package com.sincerelysmarty.RoC.Client.States;
 
-import com.sincerelysmarty.RoC.Client.Font;
+import com.sincerelysmarty.RoC.Client.Output.Font;
 import com.sincerelysmarty.RoC.Client.Gui.Button;
 import com.sincerelysmarty.RoC.Client.RoC;
-import com.sincerelysmarty.RoC.Client.Screen;
+import com.sincerelysmarty.RoC.Client.Output.Screen;
 import static com.sincerelysmarty.RoC.Client.States.MenuComponent.BUTTON_BACK_;
 
 /**

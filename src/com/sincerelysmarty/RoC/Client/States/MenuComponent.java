@@ -6,10 +6,10 @@ package com.sincerelysmarty.RoC.Client.States;
 
 import com.sincerelysmarty.RoC.Client.Gui.Button;
 import com.sincerelysmarty.RoC.Client.Gui.ButtonListener;
-import com.sincerelysmarty.RoC.Client.Image;
+import com.sincerelysmarty.RoC.Client.Output.Image;
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.RoC;
-import com.sincerelysmarty.RoC.Client.Screen;
+import com.sincerelysmarty.RoC.Client.Output.Screen;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -23,6 +23,7 @@ public class MenuComponent implements ButtonListener, KeyListener {
 
     private List<Button> buttons = new ArrayList<>();
     private Image bckgrndImg = new Image("res/tempBackground.png");
+    public static String connectIP = "";
     private RoC game;
 
     public void render(Screen screen) {

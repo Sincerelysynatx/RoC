@@ -4,10 +4,7 @@
  */
 package com.sincerelysmarty.RoC.Client.Output;
 
-import com.sincerelysmarty.RoC.Client.Font;
-import com.sincerelysmarty.RoC.Client.Image;
 import com.sincerelysmarty.RoC.Client.RoC;
-import com.sincerelysmarty.RoC.Client.Screen;
 import com.sincerelysmarty.RoC.Client.States.MenuComponent;
 
 /**
@@ -22,6 +19,7 @@ public class ParagraphOutput extends MenuComponent {
     private int index;
     private static Image txtBckgrnd = new Image("res/textBackground.png");
     private boolean doesHaveBackground;
+    private char[][] characters;
 
     public ParagraphOutput(String text, int number, boolean doesHaveBackground) {
         this.text = text;
@@ -44,6 +42,7 @@ public class ParagraphOutput extends MenuComponent {
         for (int i = 0; i < lines.length; i++) {
             populateLine(i);
         }
+        assignCharacters();
     }
 
     private void populateLine(int line) {
@@ -74,17 +73,21 @@ public class ParagraphOutput extends MenuComponent {
     @Override
     public void render(Screen screen) {
         for (int i = 0; i < lines.length; i++) {
-            /*
             if (doesHaveBackground) {
-                for (int j = 10; j < RoC.GAME_WIDTH - 10; j += 7) {
-                    
-                }
             }
-            * */
             Font.draw(lines[i], screen, 10, 20 * i + 100);
         }
     }
 
+    private void assignCharacters(){
+        characters = new char[lines.length][43];
+        for (int y = 0; y < lines.length; y++){
+            for (int x = 0; x < lines[y].length(); x++){
+                characters[y][x] = lines[y].charAt(x);
+            }
+        }
+    }
+    
     private void drawTextBackground(int bckgrndImg, Screen screen) {
         switch (bckgrndImg) {
             case 0:
@@ -93,20 +96,28 @@ public class ParagraphOutput extends MenuComponent {
                 screen.draw(txtBckgrnd.subImage[0][0], index, index);
                 break;
             case 2:
+                screen.draw(txtBckgrnd.subImage[1][0], index, index);
                 break;
             case 3:
+                screen.draw(txtBckgrnd.subImage[2][0], index, index);
                 break;
             case 4:
+                screen.draw(txtBckgrnd.subImage[0][1], index, index);
                 break;
             case 5:
+                screen.draw(txtBckgrnd.subImage[1][1], index, index);
                 break;
             case 6:
+                screen.draw(txtBckgrnd.subImage[2][1], index, index);
                 break;
             case 7:
+                screen.draw(txtBckgrnd.subImage[0][2], index, index);
                 break;
             case 8:
+                screen.draw(txtBckgrnd.subImage[1][2], index, index);
                 break;
             case 9:
+                screen.draw(txtBckgrnd.subImage[2][2], index, index);
                 break;
         }
     }

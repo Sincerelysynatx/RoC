@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sincerelysmarty.RoC.Client;
+package com.sincerelysmarty.RoC.Client.Output;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

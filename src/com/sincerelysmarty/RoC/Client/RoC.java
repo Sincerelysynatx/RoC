@@ -4,6 +4,8 @@
  */
 package com.sincerelysmarty.RoC.Client;
 
+import com.sincerelysmarty.RoC.Client.Output.Screen;
+import com.sincerelysmarty.RoC.Client.Output.Font;
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.States.MenuComponent;
 import com.sincerelysmarty.RoC.Client.States.MainMenu;
