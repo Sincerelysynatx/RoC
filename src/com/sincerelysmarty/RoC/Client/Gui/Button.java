@@ -5,7 +5,7 @@
 package com.sincerelysmarty.RoC.Client.Gui;
 
 import com.sincerelysmarty.RoC.Client.Font;
-import com.sincerelysmarty.RoC.Client.ImageLoader;
+import com.sincerelysmarty.RoC.Client.Image;
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.Screen;
 import com.sincerelysmarty.RoC.Client.States.MenuComponent;
@@ -22,6 +22,7 @@ public class Button extends MenuComponent {
     public int imageX, imageY;
     public String message;
     public boolean isPressed, preformAction;
+    public Image btnImg = new Image("res/buttons.png", 128, 24);
 
     public Button(int id, String message, int imageX, int imageY, int x, int y) {
         this.id = id;
@@ -45,9 +46,9 @@ public class Button extends MenuComponent {
     @Override
     public void render(Screen screen) {
         if(isPressed)
-            screen.draw(ImageLoader.buttons[imageX == 1 ? imageX - 1 : imageX][imageY], x, y);
+            screen.draw(btnImg.subImage[imageX == 1 ? imageX - 1 : imageX][imageY], x, y);
         else
-            screen.draw(ImageLoader.buttons[imageX == 0 ? imageX + 1 : imageX][imageY], x, y);
+            screen.draw(btnImg.subImage[imageX == 0 ? imageX + 1 : imageX][imageY], x, y);
         Font.draw(message, screen, x + (128 / 2) - Font.getStringWidthByHalf(message), y + (24 / 2) - 7);
     }
 

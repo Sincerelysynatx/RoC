@@ -9,6 +9,9 @@ package com.sincerelysmarty.RoC.Client;
  * @author Sincerelypwnd
  */
 public class Font {
+    
+    private static Image font = new Image("res/font.png", 7, 15);
+    private static Image fontL = new Image("res/font_Large.png", 14, 30);
 
     public static String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                                     + "abcdefghijklmnopqrstuvwxyz!?,.'\";:  ";
@@ -29,7 +32,7 @@ public class Font {
         for (int i = 0; i < message.length(); i++) {
             int index = characters.indexOf(message.charAt(i));
             if (index < 0) continue;
-            screen.draw(ImageLoader.font[index % 36][index / 36], x, y);
+            screen.draw(font.subImage[index % 36][index / 36], x, y);
             x += 7;
         }
     }
@@ -37,7 +40,7 @@ public class Font {
         for (int i = 0; i < message.length(); i++) {
             int index = characters.indexOf(message.charAt(i));
             if (index < 0) continue;
-            screen.draw(ImageLoader.fontL[index % 36][index / 36], x, y);
+            screen.draw(fontL.subImage[index % 36][index / 36], x, y);
             x += 14;
         }
     }

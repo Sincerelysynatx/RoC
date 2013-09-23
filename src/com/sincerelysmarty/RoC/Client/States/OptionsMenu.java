@@ -14,18 +14,17 @@ import static com.sincerelysmarty.RoC.Client.States.MenuComponent.BUTTON_BACK_;
  *
  * @author 5002394184
  */
-class OptionsMenu extends MenuComponent{
+class OptionsMenu extends MenuComponent {
 
-
-    
     private static final String name = "Options";
+
     @Override
     public void render(Screen screen) {
         super.render(screen);
         Font.drawL(name, screen, RoC.GAME_WIDTH / 2 - Font.getStringWidthByHalfL(name), 50);
         //while(nextChar)
     }
-    
+
     @Override
     public void init(RoC game) {
         super.init(game);

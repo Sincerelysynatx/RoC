@@ -23,17 +23,16 @@ public class ParagraphOutput extends MenuComponent {
     public ParagraphOutput(String text, int number) {
         this.text = text;
         lines = new String[number];
-        nextChar = text.charAt(0);
-        index = 1;
+        index = 0;
+        nextChar = text.charAt(index);
     }
 
     public void nextLine() {
-        String tempLine = lines[lines.length - 1];
-        for (int i = lines.length - 1; i > 0; i--) {
-            lines[i - 1] = lines[i];
+        lines[0] = "";
+        for (int i = 0; i < lines.length - 1; i++) {
+            lines[i] = lines[i + 1];
         }
-        lines[0] = tempLine;
-        
+
         populateLine(lines.length - 1);
     }
 
@@ -45,12 +44,26 @@ public class ParagraphOutput extends MenuComponent {
 
     private void populateLine(int line) {
         lines[line] = "";
+        int lettersInWord = 0;
         for (int i = 10; i < RoC.GAME_WIDTH - 10; i += 7) {
-            if (index == text.length())
+            if (index == text.length() - 1) {
                 break;
+            }
+            if (i + 7 > RoC.GAME_WIDTH - 10 && nextChar != ' ') {
+                index -= lettersInWord;
+                nextChar = text.charAt(index);
+                String tempString = lines[line].substring(0, lines[line].length() - lettersInWord);
+                lines[line] = tempString;
+                break;
+            }
+            if (nextChar == ' ') {
+                lettersInWord = 0;
+            } else {
+                lettersInWord++;
+            }
             lines[line] += nextChar;
-            nextChar = text.charAt(index);
             index++;
+            nextChar = text.charAt(index);
         }
     }
 

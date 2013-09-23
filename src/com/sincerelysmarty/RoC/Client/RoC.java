@@ -6,7 +6,7 @@ package com.sincerelysmarty.RoC.Client;
 
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.States.MenuComponent;
-import com.sincerelysmarty.RoC.Client.States.TitleMenu;
+import com.sincerelysmarty.RoC.Client.States.MainMenu;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -51,10 +51,7 @@ public class RoC extends Canvas implements Runnable, KeyListener {
     private void init() {
         screen = new Screen(GAME_WIDTH, GAME_HEIGHT);
         running = true;
-        ImageLoader.init();
-
-
-
+        
         JFrame frame = new JFrame(GAME_NAME);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -64,7 +61,7 @@ public class RoC extends Canvas implements Runnable, KeyListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        setMenu(new TitleMenu());
+        setMenu(new MainMenu());
 
         new Thread(this).start();
     }

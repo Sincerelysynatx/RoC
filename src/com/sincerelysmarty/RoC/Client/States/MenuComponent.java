@@ -6,6 +6,7 @@ package com.sincerelysmarty.RoC.Client.States;
 
 import com.sincerelysmarty.RoC.Client.Gui.Button;
 import com.sincerelysmarty.RoC.Client.Gui.ButtonListener;
+import com.sincerelysmarty.RoC.Client.Image;
 import com.sincerelysmarty.RoC.Client.Input.MouseInput;
 import com.sincerelysmarty.RoC.Client.RoC;
 import com.sincerelysmarty.RoC.Client.Screen;
@@ -21,10 +22,11 @@ import java.util.ArrayList;
 public class MenuComponent implements ButtonListener, KeyListener {
 
     private List<Button> buttons = new ArrayList<>();
-    
+    private Image bckgrndImg = new Image("res/tempBackground.png");
     private RoC game;
 
     public void render(Screen screen) {
+        screen.draw(bckgrndImg.image, 0, 0);
         for (Button b : buttons) {
             b.render(screen);
         }
@@ -73,7 +75,7 @@ public class MenuComponent implements ButtonListener, KeyListener {
         } else if (button.getID() == MenuComponent.BUTTON_QUIT_) {
             RoC.setRunning(false);
         } else if (button.getID() == MenuComponent.BUTTON_BACK_) {
-            game.setMenu(new TitleMenu());
+            game.setMenu(new MainMenu());
         }
 
     }
