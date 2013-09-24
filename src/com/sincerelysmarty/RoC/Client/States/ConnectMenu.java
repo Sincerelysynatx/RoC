@@ -23,7 +23,7 @@ class ConnectMenu extends MenuComponent {
     public void render(Screen screen) {
         super.render(screen);
         Font.drawL(name, screen, RoC.GAME_WIDTH / 2 - Font.getStringWidthByHalfL(name), 50);
-        Font.draw("Please enter server IP", screen, RoC.GAME_WIDTH / 2 - Font.getStringWidthByHalfL("Please enter server IP"), 140);
+        Font.draw("Please enter server IP", screen, RoC.GAME_WIDTH / 2 - Font.getStringWidthByHalf("Please enter server IP"), 140);
         Font.draw(connectIP + "-", screen, RoC.GAME_WIDTH / 2 - Font.getStringWidthByHalfL(connectIP), 150);
     }
 

@@ -17,7 +17,7 @@ public class ParagraphOutput extends MenuComponent {
     private String[] lines;
     private char nextChar;
     private int index;
-    private static Image txtBckgrnd = new Image("res/textBackground.png");
+    private static Image txtBckgrnd = new Image("res/textBackground.png", 7, 15);
     private boolean doesHaveBackground;
     private char[][] characters;
 
@@ -72,52 +72,77 @@ public class ParagraphOutput extends MenuComponent {
 
     @Override
     public void render(Screen screen) {
-        for (int i = 0; i < lines.length; i++) {
-            if (doesHaveBackground) {
+        if (doesHaveBackground) {
+            for (int y = 0; y < characters.length; y++) {
+                for (int x = 0; x < characters[y].length; x++) {
+                    int tempX = (x * 7) + 10;
+                    int tempY = (y * 15) + 100;
+                    if (x == 0 && y == 0) {//corner
+                        drawTextBackground(1, screen, tempX,tempY);
+                    } else if (x == characters[y].length - 1 && y == 0) {//corner
+                        drawTextBackground(3, screen, tempX,tempY);
+                    } else if (x == 0 && y == characters.length - 1) {//corner
+                        drawTextBackground(7, screen, tempX,tempY);
+                    } else if (x == characters[y].length - 1 && y == characters.length - 1) {//corner
+                        drawTextBackground(9, screen, tempX,tempY);
+                    } else if (x > 0 && y == 0) {
+                        drawTextBackground(2, screen, tempX,tempY);
+                    } else if (x == 0 && y > 0) {
+                        drawTextBackground(4, screen, tempX,tempY);
+                    } else if (x == characters[y].length - 1 && y > 0) {
+                        drawTextBackground(6, screen, tempX,tempY);
+                    } else if (x > 0 && y == characters.length - 1) {
+                        drawTextBackground(8, screen, tempX,tempY);
+                    } else {
+                        drawTextBackground(5, screen, tempX,tempY);
+                    }
+                }
             }
-            Font.draw(lines[i], screen, 10, 20 * i + 100);
+        }
+        for (int i = 0; i < lines.length; i++) {
+            Font.draw(lines[i], screen, 10, i * 15 + 100);
         }
     }
 
-    private void assignCharacters(){
+    private void assignCharacters() {
         characters = new char[lines.length][43];
-        for (int y = 0; y < lines.length; y++){
-            for (int x = 0; x < lines[y].length(); x++){
+        for (int y = 0; y < lines.length; y++) {
+            for (int x = 0; x < lines[y].length(); x++) {
                 characters[y][x] = lines[y].charAt(x);
             }
         }
     }
-    
-    private void drawTextBackground(int bckgrndImg, Screen screen) {
+
+    private void drawTextBackground(int bckgrndImg, Screen screen, int x, int y) {
         switch (bckgrndImg) {
             case 0:
                 break;
             case 1:
-                screen.draw(txtBckgrnd.subImage[0][0], index, index);
+                screen.draw(txtBckgrnd.subImage[0][0], x, y);
                 break;
             case 2:
-                screen.draw(txtBckgrnd.subImage[1][0], index, index);
+                screen.draw(txtBckgrnd.subImage[1][0], x, y);
                 break;
             case 3:
-                screen.draw(txtBckgrnd.subImage[2][0], index, index);
+                screen.draw(txtBckgrnd.subImage[2][0], x, y);
                 break;
             case 4:
-                screen.draw(txtBckgrnd.subImage[0][1], index, index);
+                screen.draw(txtBckgrnd.subImage[0][1], x, y);
                 break;
             case 5:
-                screen.draw(txtBckgrnd.subImage[1][1], index, index);
+                screen.draw(txtBckgrnd.subImage[1][1], x, y);
                 break;
             case 6:
-                screen.draw(txtBckgrnd.subImage[2][1], index, index);
+                screen.draw(txtBckgrnd.subImage[2][1], x, y);
                 break;
             case 7:
-                screen.draw(txtBckgrnd.subImage[0][2], index, index);
+                screen.draw(txtBckgrnd.subImage[0][2], x, y);
                 break;
             case 8:
-                screen.draw(txtBckgrnd.subImage[1][2], index, index);
+                screen.draw(txtBckgrnd.subImage[1][2], x, y);
                 break;
             case 9:
-                screen.draw(txtBckgrnd.subImage[2][2], index, index);
+                screen.draw(txtBckgrnd.subImage[2][2], x, y);
                 break;
         }
     }
